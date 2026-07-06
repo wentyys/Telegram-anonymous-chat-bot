@@ -17,7 +17,7 @@ logging.basicConfig(
 )
 
 # Безопасное чтение токена из переменных окружения Render
-TOKEN = os.getenv('BOT_TOKEN')
+TOKEN = '8881587409:AAFMufuE-61ihZqfuOF8JTOg-Lt54lHq-do'
 
 user_data = {}
 waiting_users = {'male': [], 'female': []}
