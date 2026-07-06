@@ -159,25 +159,34 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         if partner_id:
             nickname = user_data[user_id]['nickname']
             
-            # 1. Если отправили ТЕКСТ
+            # ТЕКСТ
             if update.message.text:
                 await context.bot.send_message(chat_id=partner_id, text=f'{nickname}: {update.message.text}')
             
-            # 2. Если отправили ФОТО (с подписью или без)
+            # ФОТО
             elif update.message.photo:
                 caption = f"{nickname}: {update.message.caption}" if update.message.caption else f"{nickname} отправил(а) фото"
                 await context.bot.send_photo(chat_id=partner_id, photo=update.message.photo[-1].file_id, caption=caption)
             
-            # 3. Если отправили ВИДЕО
+            # ВИДЕО
             elif update.message.video:
                 caption = f"{nickname}: {update.message.caption}" if update.message.caption else f"{nickname} отправил(а) видео"
                 await context.bot.send_video(chat_id=partner_id, video=update.message.video.file_id, caption=caption)
             
-            # 4. Если отправили СТИКЕР
+            # СТИКЕР
             elif update.message.sticker:
-                # Сначала предупреждаем от кого стикер, а затем шлем его
                 await context.bot.send_message(chat_id=partner_id, text=f'{nickname} отправил(а) стикер:')
                 await context.bot.send_sticker(chat_id=partner_id, sticker=update.message.sticker.file_id)
+                
+            # ГОЛОСОВОЕ СООБЩЕНИЕ
+            elif update.message.voice:
+                await context.bot.send_message(chat_id=partner_id, text=f'{nickname} отправил(а) голосовое сообщение:')
+                await context.bot.send_voice(chat_id=partner_id, voice=update.message.voice.file_id)
+                
+            # КРУЖОЧЕК (Видеозаметка)
+            elif update.message.video_note:
+                await context.bot.send_message(chat_id=partner_id, text=f'{nickname} отправил(а) видеосообщение:')
+                await context.bot.send_video_note(chat_id=partner_id, video_note=update.message.video_note.file_id)
         else:
             await update.message.reply_text('Ваш собеседник не найден. Отправьте /endchat, чтобы завершить сессию.')
     else:
@@ -251,9 +260,16 @@ def main() -> None:
     application.add_handler(CommandHandler('interests', set_interests))
     application.add_handler(CallbackQueryHandler(set_gender))
     
-    # Расширенный фильтр: теперь бот принимает текст, фото, видео и стикеры
-    media_filter = filters.TEXT | filters.PHOTO | filters.VIDEO | filters.STICKER
-    application.add_handler(MessageHandler(media_filter & ~filters.COMMAND, handle_message))
+    # Полный и явный фильтр на все типы медиа, исключая команды
+    all_media_filter = (
+        filters.TEXT | 
+        filters.PHOTO | 
+        filters.VIDEO | 
+        filters.STICKER | 
+        filters.VOICE | 
+        filters.VIDEO_NOTE
+    )
+    application.add_handler(MessageHandler(all_media_filter & ~filters.COMMAND, handle_message))
 
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
