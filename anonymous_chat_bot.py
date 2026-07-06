@@ -15,27 +15,18 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
-TOKEN = 'YOUR_BOT_TOKEN'
+TOKEN = '8881587409:AAFMufuE-61ihZqfuOF8JTOg-Lt54lHq-do'
 
 user_data = {}
 waiting_users = {'male': [], 'female': []}
 active_chats = {}
 
 FORBIDDEN_WORDS = [
-    'fuck', 'hell', 'asshole', 'shit', 'bitch', 'cunt', 'dick', 'pussy', 'nigger', 'faggot',
-    'kontol', 'memek', 'jembut', 'bangsat', 'anjir', 'anjing', 'tolol', 'goblok', 'bodoh', 'kampret',
-    'brengsek', 'tai', 'sialan', 'bajingan', 'pepek', 'kimak', 'pukimak', 'asu', 'jancok', 'ngentot'
+    
 ]
 
 NICKNAMES = [
-    'Beruang', 'Tupai', 'Kucing', 'Panda', 'Serigala', 'Elang', 'Singa', 'Harimau', 'Rusa',
-    'Rubah', 'Koala', 'Kelinci', 'Monyet', 'Bebek', 'Gajah', 'Kuda', 'Ular', 'Buaya', 'Babi',
-    'Semut', 'Lebah', 'Ikan', 'Hiu', 'Paus', 'Lumba-lumba', 'Bintang', 'Bulan', 'Matahari',
-    'Pelangi', 'Awan', 'Hujan', 'Angin', 'Petir', 'Salju', 'Gunung', 'Pantai', 'Laut', 'Sungai',
-    'Danau', 'Hutan', 'Pohon', 'Bunga', 'Mawar', 'Melati', 'Teratai', 'Buku', 'Pensil', 'Meja',
-    'Kursi', 'Lampu', 'Kopi', 'Teh', 'Susu', 'Gula', 'Garam', 'Merica', 'Jahe', 'Kunyit',
-    'Bawang', 'Cabai', 'Kentang', 'Wortel', 'Tomat', 'Apel', 'Jeruk', 'Mangga', 'Durian',
-    'Pisang', 'Nanas', 'Anggur', 'Stroberi', 'Ceri', 'Jambu', 'Kelapa'
+    'Анонимный Пользователь'
 ]
 
 def contains_forbidden_words(text: str) -> bool:
